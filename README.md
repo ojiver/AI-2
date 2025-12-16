@@ -8,19 +8,19 @@ Colab 最長的執行時間為 12 小時，但訓練 YOLO 通常都要來長達�
 建立 Colab 專用的 disk 空間
 在您的 Google Drive 建立一個 folder 專門給 Colab 使用。下方的例子中，我在最上層建了一個space_Colab。
 
-![image]()
+![image](https://github.com/ojiver/AI-2/blob/main/1.jpg?raw=true)
 
 接著，把你打算要訓練的 dataset（PASCAL-VOC format）上傳到此目錄下。
 
 將 Colab 加入 javascript whitelist
 Chrome：設定🡪網站設定🡪Javascript，將下列三個網域加入 white list，讓 Colab 頁面可長時間持續得執行而不會產生 javascript error。
 
-![image]()
+![image](https://github.com/ojiver/AI-2/blob/main/2.jpg?raw=true)
 
 Colab的限制
 如果你在 Colab 輸入下方的指令，會看到目前提供的 GPU 型號是 Tesla P100，而且還是 16 GB 的版本！
 
-![image]()
+![image](https://github.com/ojiver/AI-2/blob/main/3.jpg?raw=true)
 
 Tesla P100 發表於 2016 年，有 3584 個 CUDA Core，首發價格為 5,699 USD，其與 Nvidia 各系列 GPU 的性能表現比較，可參考這篇文章。
 
@@ -32,7 +32,7 @@ Tesla P100 發表於 2016 年，有 3584 個 CUDA Core，首發價格為 5,699 U
 
 至於第二點 Google Drive 的檔案讀取限制，是指 Colab 持續讀取 Google Drive 檔案數目（約在 7000~8000左右），如果太多會 Time out 並出現 Input/Output error 的訊息，像是我打算建一個有 15,000 的資料夾，就出現了 error 訊息。
 
-![image]()
+![image](https://github.com/ojiver/AI-2/blob/main/4.jpg?raw=true)
 
 解決方式是將這些檔案放散到子目錄下，讓單一目錄的檔案數目不要過大，這樣讀取時就不會產生 Time out error。
 
@@ -59,11 +59,11 @@ drive.mount(‘/content/gdrive’, force_remount=True)
 
 原 dataset 架構：
 
-![image]()
+![image](https://github.com/ojiver/AI-2/blob/main/5.jpg?raw=true)
 
 轉檔後的 dataset 架構：
 
-![image]()
+![image](https://github.com/ojiver/AI-2/blob/main/6.jpg?raw=true)
 
 2. 產生訓練用的 YOLO dataset 並減少單一資料夾檔案的數目
 將 PASCAL dataset 轉為 YOLO dataset 格式，作法可以請參考如何快速完成 yolo-v3 訓練與預測這篇文章。最後產生給 YOLO 訓練用的圖片及標記會放在於同一資料夾中，總數共有 30,000 筆（15,000張 jpg 圖片和  15,000 個標記 txt 檔），但由於數目太大會讓 Colab 在讀取時產生 Time out 的錯誤，因此必須將這些檔案分散到子資料夾中。
@@ -111,8 +111,8 @@ for loop_folder in range(int(img_count_total/file_count_in_folder)+1):
     except:
         print("#{}/{} move filed".format(loop_folder, i))
         continue
-
-        ![image]()
+        
+![image](https://github.com/ojiver/AI-2/blob/main/7.jpg?raw=true)
 
         3. 產生訓練用的 YOLO dataset 及設定檔
 此步驟要產生 YOLO 訓練時需要的 train.txt、test.txt、obj.data、obj.names、YOLO.cfg，作法同樣請參考如何快速完成 yolo-v3 訓練與預測這篇文章。
@@ -125,7 +125,7 @@ for loop_folder in range(int(img_count_total/file_count_in_folder)+1):
 5. 下載官方版 Darknet 到 Google Drive
 先新增一 Colab 頁面，指定為使用 GPU（Runtime 🡪 Change runtime type）
 
-        ![image]()
+![image](https://github.com/ojiver/AI-2/blob/main/8.jpg?raw=true)
 
 執行下方的指令，將 Darknet 程式下載到 Google Drive。
 
@@ -230,11 +230,11 @@ file.write(block)
 !./darknet detect cfg/yolov3.cfg /WORK1/cfg_YOLO/Pretrained/yolov3.weights data/dog.jpg
 由於 Darknet 在做偵測時會嘗試顯示圖片並等待使用者動作，所以會等待一段時間才會出現訊息，您可以修改 examples/detector.c，comment 下方 612~615 的內容。
 
-![image]()
+![image](https://github.com/ojiver/AI-2/blob/main/9.jpg?raw=true)
 
 執行結果如下，確認 Darknet 可正常的執行。
 
-![image]()
+![image](https://github.com/ojiver/AI-2/blob/main/10.jpg?raw=true)
 
 7. 開始訓練 YOLO
 新增一 Colab 頁面，可命名為 train.ipynb，執行的程式如下：
@@ -254,23 +254,23 @@ drive.mount(‘/content/gdrive’, force_remount=True)
 !./darknet detector train /WORK1/cfg_YOLO/cfg.crowdHuman_colab/obj.data /WORK1/cfg_YOLO/cfg.crowdHuman_colab/crowd_human_yolov3_colab.cfg /WORK1/cfg_YOLO/Pretrained/darknet53.conv.74
 會看到 Colab 載入 model 後開始進行訓練了。
 
-![image]()
+![image](https://github.com/ojiver/AI-2/blob/main/11.jpg?raw=true)
 
 可能過了一段時間訓練 log 畫面都沒有更新，但左上角的圓形有在轉，表示有在運作，可以不用擔心，另外您也可以將其同步在 Google Drive 上，就能看到訓練的 weights 有持續在增加及更新（下圖紅框部份）。
 
-![image]()
+![image](https://github.com/ojiver/AI-2/blob/main/12.jpg?raw=true)
 
 超過了 12 小時 Colab 就會出現 Runtime disconnected （如下圖），此時可重新載入 train.ipynb 的頁面，將最後一行訓練中所帶入的 pretrained weights 改為 xxxx.backup，重新執行一次，便可以接續最近一次訓練的結果繼續訓練下去。
 
 !./darknet detector train /WORK1/cfg_YOLO/cfg.crowdHuman_colab/obj.data /WORK1/cfg_YOLO/cfg.crowdHuman_colab/crowd_human_yolov3_colab.cfg /WORK1/cfg_YOLO/cfg.crowdHuman_colab/weights/crowd_human_yolov3_colab.backup
 
-![image]()
+![image](https://github.com/ojiver/AI-2/blob/main/13.jpg?raw=true)
 
 訓練結果
 在經過數天斷斷續續的訓練後，使用 Crowd Human dataset 的15,000張圖片，透過 Colab 所訓練的結果如下，但其實還不算是最佳。
 
-![image]()
-![image]()
+![image](https://github.com/ojiver/AI-2/blob/main/14.jpg?raw=true)
+![image](https://github.com/ojiver/AI-2/blob/main/15.jpg?raw=true)
 
 小結
 你可能會問「能用 Colab 取代實體 GPU 嗎？」
