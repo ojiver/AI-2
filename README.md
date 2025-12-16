@@ -296,7 +296,7 @@ Please note that using Colaboratory for cryptocurrency mining is disallowed enti
 
 當您突破 12 小時的限制，持續重新執行 Colab 來跑你的 YOLO training，不消幾天您的 Colab 頁面就會出現下方訊息：
 
-![image]()
+![image](https://github.com/ojiver/AI-2/blob/main/16.jpg?raw=true)
 
 您會在短時間內被封鎖，無法再使用 Colab 的 GPU，因為只要一執行就會出現這個訊息，只有切換為一般的 CPU 才能正常運作，因為您已經被 Google 逮到將 Colab 用在長時間運算而非測試與學習的任務，必須等待短則半天多則數天才能再次使用。
 
